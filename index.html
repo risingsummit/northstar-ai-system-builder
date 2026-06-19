@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Northstar AI System Builder</title>
+    <meta name="description" content="A browser-based AI system planning workspace that generates architecture, model strategy, guardrails, launch roadmap, and operating metrics.">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Northstar AI home">
+        <span>N</span>
+        Northstar AI
+      </a>
+      <nav aria-label="Page sections">
+        <a href="#builder">Builder</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#evaluation">Evaluation</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <img src="assets/ai-system-hero.png" alt="AI operations dashboard with model routing, data pipelines, evaluation charts, and deployment status panels">
+        <div class="hero-content">
+          <p class="eyebrow">AI system design workspace</p>
+          <h1>Build an AI system plan ready for a real product team.</h1>
+          <p class="lede">Turn a product idea into an architecture, model strategy, guardrails, rollout plan, and operating metrics in one browser app.</p>
+          <div class="hero-actions">
+            <button id="generateSystem" class="primary" type="button">Generate system</button>
+            <button id="loadExample" class="secondary" type="button">Load example</button>
+          </div>
+        </div>
+        <div class="hero-metrics" aria-label="Current system metrics">
+          <div>
+            <strong id="readinessScore">0</strong>
+            <span>Readiness</span>
+          </div>
+          <div>
+            <strong id="latencyEstimate">0.0s</strong>
+            <span>Latency</span>
+          </div>
+          <div>
+            <strong id="monthlyCost">$0</strong>
+            <span>Monthly</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="builder" class="workspace" aria-label="AI system builder">
+        <aside class="builder-panel">
+          <div class="panel-heading">
+            <p class="eyebrow">System brief</p>
+            <h2>Product inputs</h2>
+          </div>
+
+          <label>
+            System name
+            <input id="systemName" type="text" value="Client Support Copilot">
+          </label>
+
+          <label>
+            Primary job
+            <textarea id="systemGoal">Answer customer support questions, summarize account context, classify ticket urgency, and draft next-best replies for agents.</textarea>
+          </label>
+
+          <div class="field-grid">
+            <label>
+              Domain
+              <select id="domain">
+                <option value="support">Customer support</option>
+                <option value="security">Security operations</option>
+                <option value="finance">Financial analysis</option>
+                <option value="education">Learning assistant</option>
+                <option value="operations">Business operations</option>
+              </select>
+            </label>
+            <label>
+              Users
+              <input id="userCount" type="number" min="25" step="25" value="500">
+            </label>
+          </div>
+
+          <div class="field-grid">
+            <label>
+              Data sensitivity
+              <select id="sensitivity">
+                <option value="medium">Internal</option>
+                <option value="low">Public</option>
+                <option value="high">PII / regulated</option>
+              </select>
+            </label>
+            <label>
+              Traffic
+              <select id="traffic">
+                <option value="steady">Steady</option>
+                <option value="spiky">Spiky</option>
+                <option value="batch">Batch-heavy</option>
+              </select>
+            </label>
+          </div>
+
+          <fieldset>
+            <legend>Capabilities</legend>
+            <label class="check"><input type="checkbox" value="rag" checked>Knowledge retrieval</label>
+            <label class="check"><input type="checkbox" value="tools" checked>Tool actions</label>
+            <label class="check"><input type="checkbox" value="classification" checked>Classification</label>
+            <label class="check"><input type="checkbox" value="workflow">Workflow automation</label>
+            <label class="check"><input type="checkbox" value="analytics">Analytics</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Operating constraints</legend>
+            <label class="check"><input type="checkbox" value="human-review" checked>Human review</label>
+            <label class="check"><input type="checkbox" value="audit-log" checked>Audit log</label>
+            <label class="check"><input type="checkbox" value="private-data" checked>Private data boundary</label>
+            <label class="check"><input type="checkbox" value="low-latency">Low latency</label>
+          </fieldset>
+        </aside>
+
+        <section class="output-grid" aria-label="Generated AI system plan">
+          <section id="architecture" class="panel architecture-panel">
+            <div class="panel-heading row">
+              <div>
+                <p class="eyebrow">Architecture</p>
+                <h2 id="architectureTitle">Client Support Copilot</h2>
+              </div>
+              <span id="modelBadge" class="badge">Hybrid LLM stack</span>
+            </div>
+            <div id="architectureMap" class="architecture-map" aria-label="Generated architecture stages"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <p class="eyebrow">Model strategy</p>
+              <h2>Routing plan</h2>
+            </div>
+            <div id="modelPlan" class="stack"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <p class="eyebrow">Trust layer</p>
+              <h2>Guardrails</h2>
+            </div>
+            <div id="guardrails" class="stack"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-heading">
+              <p class="eyebrow">Launch</p>
+              <h2>Roadmap</h2>
+            </div>
+            <div id="roadmap" class="roadmap"></div>
+          </section>
+
+          <section id="evaluation" class="panel wide">
+            <div class="panel-heading row">
+              <div>
+                <p class="eyebrow">Evaluation</p>
+                <h2>Operating dashboard</h2>
+              </div>
+              <span id="riskBadge" class="badge">Not generated</span>
+            </div>
+            <div class="ops-grid">
+              <div class="meter-card">
+                <span>Answer quality</span>
+                <div class="meter"><i id="qualityMeter"></i></div>
+              </div>
+              <div class="meter-card">
+                <span>Safety coverage</span>
+                <div class="meter"><i id="safetyMeter"></i></div>
+              </div>
+              <div class="meter-card">
+                <span>Automation fit</span>
+                <div class="meter"><i id="automationMeter"></i></div>
+              </div>
+            </div>
+            <div id="summary" class="summary">Generate a system plan to populate the architecture and launch brief.</div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <template id="stageTemplate">
+      <article class="stage-card">
+        <span></span>
+        <div>
+          <h3></h3>
+          <p></p>
+        </div>
+      </article>
+    </template>
+
+    <template id="itemTemplate">
+      <article class="item-card">
+        <strong></strong>
+        <p></p>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
